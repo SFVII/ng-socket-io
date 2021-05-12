@@ -1,106 +1,24 @@
-# Angular 9+ Socket.IO with Authentication
+# SocketFrontUpdate
 
-This packagee works with socket.io 2, you should have version 2 on server side also 
+This library was generated with [Angular CLI](https://github.com/angular/angular-cli) version 9.0.7.
 
+## Code scaffolding
 
-## Install
+Run `ng generate component component-name --project socket-front-update` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module --project socket-front-update`.
+> Note: Don't forget to add `--project socket-front-update` or else it will be added to the default project in your `angular.json` file. 
 
-Run `npm install SFVII/ng-socket-io` 
+## Build
 
-## Configuration
+Run `ng build socket-front-update` to build the project. The build artifacts will be stored in the `dist/` directory.
 
-All of default socket-io options should be prefixed by `socket_
+## Publishing
 
-### this module allow authentication trigger , when you set options `auth` to `true`
+After building your library with `ng build socket-front-update`, go to the dist folder `cd dist/socket-front-update` and run `npm publish`.
 
-````
-import {Socket, SocketIoModule} from 'ng-socket-io';
+## Running unit tests
 
-...
-@NgModule({
-    declarations: [...],
-     imports: [
-        ...
-        SocketIoModule.forRoot({
-            url: environment.baseUrlSocket,
-            socket_path: null,
-            socket_transports: ['websocket'],
-            socket_query: {},
-            socket_reconnection: true,
-            socket_reconnectionAttempts: Infinity,
-            socket_reconnectionDelay: 1000,
-            socket_reconnectionDelayMax: 5000,
-            socket_randomizationFactor: 0.5,
-            socket_timeout: 60000,
-            socket_autoConnect: true,
-            socket_extraHeaders: {},
-            auth: true,
-            loginPage: '/login'
-        })
-        ...
-    ],
-    ...
-    providers: [
-        ...
-        Socket,
-        ...
-    ]
-    ...
-})
-````
+Run `ng test socket-front-update` to execute the unit tests via [Karma](https://karma-runner.github.io).
 
-## Disable authentication 
+## Further help
 
-Just set `auth` to `false`, by default auth is set to false
-
-## Enable authentication 
-
-When the user is connected, please call  `this.socket.tokenUpdater.emit(<user_token>);`
-that will build a query with the key token and send open connexion to socket with the given api
-
-#### Use case 
-
-```
-    import {Socket} from 'ng-socket-io';
-    ...
-    export class LoginService {
-        constructor(private socket : Socket, private api: ApiService) {}
-        
-        signIn(user, password) {
-            const {userData, token} = this.ApiService.post('/login')
-            if (token) {
-                this.socket.tokenUpdater.emit(<user_token>);
-            }
-        }
-    }
-```
-
-that will give you this kind of request : 
-`wss://yourhost.com?token=<user_token>`
-You have just to create a middleware into your backend socket.io APP 
-
-## Room Management 
-
-For join a room just call : 
-
-```
- ...
- import {Socket} from 'ng-socket-io';
- ...
- export class YourComponent {
-    constructor(private socket : Socket) {
-        this.socket.subscribe('<your_room_name>');
-    }
-    ...
- }
-```
-
-this function can manage disconnect, and reconnect to your provided room automatically 
-In your backend Socket.IO app just add 
-
-socket.on('subscribe', (name) => socket.join(name));
-
-Have fun dude, i will add some features soon and deploy a version for next version with more feature 
-
-### Tips : 
-* If you are using socket.io with redis adapter, disable upgrade in backend and increase timeout
+To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
